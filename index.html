@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bi-bitter Melon Design | 比比特·迈伦</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 导航栏 */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #222;
+            text-decoration: none;
+            letter-spacing: -1px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #444;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #000;
+        }
+        
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        /* 主横幅区域 - 已修改为使用背景图片 */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-top: 70px;
+            /* 新添加的背景图样式 */
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* 修改图片路径：添加 images/ 前缀 */
+            background-image: url('images/zhuhengfu.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.6); /* 白色半透明遮罩，增强文字可读性 */
+            z-index: -1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-content h1 {
+            font-size: 47px;
+            font-weight: 700;
+            margin-bottom: 7px;
+            letter-spacing: -1px;
+        }
+        
+        .hero-content p {
+            font-size: 18px;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            text-indent: 2em; 
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #222;
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #000;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        /* 作品集区域 */
+        .portfolio {
+            padding: 100px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            color: #777;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .portfolio-item {
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            /* 确保卡片高度正常 */
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            /* 为整个卡片添加手型光标 */
+            cursor: pointer;
+        }
+        
+        .portfolio-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        /* 作品集链接样式 */
+        .portfolio-link {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            flex: 1;
+            /* 确保链接覆盖整个卡片区域 */
+            height: 100%;
+        }
+        
+        /* 作品集封面图区域 - 基础样式 */
+        .portfolio-img {
+            height: 250px;                  /* 固定高度 */
+            width: 100%;                    /* 宽度100%适应卡片 */
+            background-color: #e9ecef;      /* 默认灰色背景 */
+            background-repeat: no-repeat;   /* 不重复 */
+            background-position: center;    /* 始终居中显示 */
+        }
+
+        /* 竖向构图：封面居中，左右留白，上下填满（适合竖屏图片） */
+        .vertical-img {
+            background-size: auto 100%;     /* 高度100%，宽度自适应 */
+        }
+
+        /* 横向构图：封面居中，上下留白，左右填满（适合横屏图片） */
+        .horizontal-img {
+            background-size: 100% auto;     /* 宽度100%，高度自适应 */
+        }
+        
+        /* 纯文字显示（用于COMING SOON） */
+        .portfolio-text {
+            height: 250px;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 18px;
+            width: 100%;
+        }
+        
+        /* 各个作品集封面图路径 */
+        .dragonball-img {
+            background-image: url('images/dragonball/dragonball-cover.png');
+        }
+
+        .landscape-img {
+            background-image: url('images/landscape/landscape-cover.jpg'); 
+            background-color: #e9ecef; 
+        }
+
+        .coverdesign-img {
+            background-image: url('images/cover-design/cover-design.png');
+        }
+
+        .character-img {
+            background-image: url('images/character/character-cover.jpg'); 
+            background-color: #e9ecef; 
+        }
+
+        .acg-img {
+            background-image: url('images/acg/acg-cover.jpg'); 
+            background-color: #e9ecef;
+        }
+        
+        .portfolio-info {
+            padding: 25px;
+            flex: 1;
+        }
+        
+        .portfolio-info h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .portfolio-info p {
+            color: #666;
+            font-size: 15px;
+        }
+        
+        /* 关于我区域 */
+        .about {
+            padding: 100px 0;
+            background-color: #fff;
+        }
+        
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        
+        .about-text {
+            flex: 1;
+        }
+        
+        .about-text h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .about-text p {
+            text-indent: 2em;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        
+        /* 关于我区域 - 图片区域 */
+        .about-image {
+            flex: 1;
+            height: 400px;
+            border-radius: 8px;
+            /* 智能图片适配 - 相框效果 */
+            background-image: url('images/my-avatar.jpg');
+            background-size: contain;      /* 等比例缩放，完整显示图片 */
+            background-position: center;   /* 始终居中显示 */
+            background-repeat: no-repeat;  /* 不重复 */
+            background-color: #f5f5f5;     /* 留白区域的背景色（浅灰色） */
+        }
+        
+        /* 服务区域 - 已更新为BBTM技能板块样式 */
+        .services {
+            padding: 100px 0;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .service-item {
+            text-align: center;
+            padding: 40px 30px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+        
+        .service-item:hover {
+            transform: translateY(-10px);
+        }
+        
+        .service-icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+            color: #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .service-item h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+        
+        .service-item p {
+            color: #666;
+        }
+        
+        /* 联系区域 */
+        .contact {
+            padding: 100px 0;
+            background-color: #fff;
+        }
+        
+        .contact-content {
+            display: flex;
+            gap: 50px;
+        }
+        
+        .contact-info {
+            flex: 1;
+        }
+        
+        .contact-info h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .contact-info p {
+            margin-bottom: 30px;
+            color: #555;
+        }
+        
+        .contact-details {
+            margin-bottom: 30px;
+        }
+        
+        .contact-detail {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .contact-detail i {
+            margin-right: 15px;
+            color: #222;
+        }
+        
+        .contact-form {
+            flex: 1;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 15px;
+        }
+        
+        textarea.form-control {
+            height: 150px;
+            resize: vertical;
+        }
+        
+        /* 页脚 */
+        footer {
+            background-color: #222;
+            color: #fff;
+            padding: 70px 0 30px;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 50px;
+        }
+        
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+        
+        .footer-links h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #fff;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #333;
+            border-radius: 50%;
+            color: #fff;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: #444;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #444;
+            color: #999;
+            font-size: 14px;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .about-content, .contact-content {
+                flex-direction: column;
+            }
+            
+            .about-image, .contact-form {
+                margin-top: 30px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: #fff;
+                flex-direction: column;
+                padding: 20px 0;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links li {
+                margin: 0;
+                text-align: center;
+                padding: 10px 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .hero-content h1 {
+                font-size: 36px;
+            }
+            
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">Bi-bitter Melon</a>
+                <ul class="nav-links">
+                    <li><a href="#home">首页</a></li>
+                    <li><a href="#portfolio">作品集</a></li>
+                    <li><a href="#about">关于我</a></li>
+                    <li><a href="#services">服务</a></li>
+                    <li><a href="#contact">联系</a></li>
+                </ul>
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主横幅区域 -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>为何在雨伞外独行_</h1>
+                <h1>为何在赤地上独行_</h1>
+                <p>"我们所痛恨的，就是如此可怕的准确性。但因为我们不知道死亡何时到达，所以会把生命当成一座永不干涸的井。然而所有的事物都只出现一定的次数，并且很少，真的。</p>
+                <p>你会想起多少次童年中，某个特定的下午，某个深深成为你生命一部分的下午？如果没有它，你甚至无法想象自己的人生。也许最多也就四五次吧，或者更少。</p>
+                <p>你还能看到多少次满月升起？也许二十次。然而我们却总觉得这些都是无穷的。"</p>
+                <p>——坂本龙一《fullmoon》/贝纳尔多·贝托鲁奇《遮蔽的天空》</p>
+                <a href="#portfolio" class="btn">查看作品</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 作品集区域 - 已调整顺序和图片格式 -->
+    <section class="portfolio" id="portfolio">
+        <div class="container">
+            <div class="section-title">
+                <h2>精选作品</h2>
+                <p>记录和热爱，学习与进步</p>
+            </div>
+            <div class="portfolio-grid">
+                <!-- 龙珠作品卡片 - 竖向构图 -->
+                <div class="portfolio-item">
+                    <a href="portfolio-dragonball.html" class="portfolio-link" title="查看所有《龙珠》相关作品">
+                        <div class="portfolio-img dragonball-img vertical-img"></div>
+                        <div class="portfolio-info">
+                            <h3>《龙珠》——模型故事开始</h3>
+                            <p>这是很久很久以前……从一段小小相遇开始的故事，终于走到了现在。用你们的双眸，仔细注目这个美好故事，这将是最后一话了，后会有期……</p>
+                        </div>
+                    </a>
+                </div>
+                
+                <!-- 风光作品卡片 - 竖向构图 -->
+                <div class="portfolio-item">
+                    <a href="portfolio-landscape.html" class="portfolio-link" title="查看所有风光摄影作品">
+                        <div class="portfolio-img landscape-img vertical-img"></div>
+                        <div class="portfolio-info">
+                            <h3>风光——带上模型出游</h3>
+                            <p>宇宙很大，生活很大。掌心轻托微缩世界，带TA踏上真实旅途。看模型小人儿们伫立山巅，与万里风光静静对视——那一刻，风穿过它的轮廓，也穿过年少的梦。</p>
+                        </div>
+                    </a>
+                </div>
+                
+                <!-- 封面作品卡片 - 竖向构图（从第5位调到第3位） -->
+                <div class="portfolio-item">
+                    <a href="portfolio-cover.html" class="portfolio-link" title="查看所有封面设计作品">
+                        <div class="portfolio-img coverdesign-img vertical-img"></div>
+                        <div class="portfolio-info">
+                            <h3>封面——学习官图出品</h3>
+                            <p>各家模型品牌官图虽风格迥异，却不失为合适的老师，经过长久的学习，博采众长，让经典角色在新的视觉表达中焕发生机，最终形成自己的风格。</p>
+                        </div>
+                    </a>
+                </div>
+                
+                <!-- 人物作品卡片 - 横向构图 -->
+                <div class="portfolio-item">
+                    <a href="portfolio-character.html" class="portfolio-link" title="查看所有英雄人物特摄作品">
+                        <div class="portfolio-img character-img horizontal-img"></div>
+                        <div class="portfolio-info">
+                            <h3>人物——英雄人物特摄</h3>
+                            <p>英雄故事 历史人物 特摄作品</p>
+                        </div>
+                    </a>
+                </div>
+                
+                <!-- ACG作品卡片 - 横向构图（从第3位调到第5位） -->
+                <div class="portfolio-item">
+                    <a href="portfolio-acg.html" class="portfolio-link" title="查看所有动画漫画游戏作品">
+                        <div class="portfolio-img acg-img horizontal-img"></div>
+                        <div class="portfolio-info">
+                            <h3>ACG——动画漫画游戏</h3>
+                            <p>Animation（动画）、Comics（漫画）与Games（游戏）</p>
+                        </div>
+                    </a>
+                </div>
+                
+                <!-- COMING SOON作品卡片 - 保留文字显示 -->
+                <div class="portfolio-item">
+                    <a href="portfolio-comingsoon.html" class="portfolio-link" title="即将发布的新作品">
+                        <div class="portfolio-text">COMING SOON</div>
+                        <div class="portfolio-info">
+                            <h3>未竟——故事尚待继续</h3>
+ 			    <p>“歌未竟，东方白。”</p>
+                            <p>“敢问路在何方？”</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于我的区域 -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>关于Bi-bitter Melon</h2>
+                    <p>您好！我是比比特·迈伦（Bi-bitter Melon/BBTM），或许称得上是个在现实与想象交界处踯躅的吟游诗人。欢迎来到我的世界——这是个"塑料小人儿"们活跃的半亩方塘。TA们既非冰冷的造物，又非无生气的产品。而是饱含存贮的故事、凝固的情感与待燃的星辰。镜头抬起落下，光墨播撒收束，在方寸间为它们赋格——让悟空的气魄在晨光中炸裂，让英雄的侧影在暮色里拉长，让虚构的人物在真实的风中呼吸。风光，是我与模型共赴的远行；ACG，是我们共享的精神故乡。每一次快门，都是一次召唤，试图让那些被我们深爱却无法触及的宇宙，在此处显形。</p>
+                    <p>对我而言，创作是最诚挚的苦修，但仍不乏令人会心的瞬间。"Bi-bitter Melon"名字的创造极富个人色彩却又暗含个人青年时的中二巧思——即来自个人最喜欢的由鸟山明老师创作的艺术作品——《龙珠》中赛亚人名字的命名方式，（例如悟空之于胡萝卜，贝吉塔之于蔬菜总称的英文日语读法）。故选择自己最喜欢的蔬菜——苦瓜的单词，通过悟空卡卡罗特式的首音叠读从而拥有了独属于自己的赛亚人名字。诚然，赛亚人并非友善的民族，正是由于悟空方才显得充满魅力和力量。那美克星上悟空"所以才灭亡啊"的反思与陈述如此冷峻客观。这也是全世界范围内《龙珠》都如此经久不衰的原因吧！昔年幻想万能胶囊想要找到七颗龙珠实现愿望，舞动着龟派气功与友人伽力克炮激情对波，洗澡时把头发竖起想象自己超级赛亚人变身的纯真孩子也就此埋下了最初纯粹的梦。</p>
+                    <p>如今，在此，通过些许独属于自己的创作和表达展现自己一直以来的热爱，该是很奇妙的一件事罢。这里记录的，不仅是一个爱好者的作品，更是一个相信"万物有灵" 的灵魂，试图用热情和自身不断学习为这些"塑料小人"们赋予生命温度、为瞬间铸刻永恒形态的，微小而纯粹的努力。</p>
+                    <a href="#contact" class="btn">联系到"我"</a>
+                </div>
+                <div class="about-image"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 服务区域 - 已更新为BBTM技能板块内容 -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>"我"的服务</h2>
+                <p>10年模玩深度入坑经验，基于玩家视角，热爱量化为专业的产品与运营能力</p>
+            </div>
+            <div class="services-grid">
+                <!-- 技能板块1: 产品规划与用户洞察 -->
+                <div class="service-item">
+                    <div class="service-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" style="width: 80px; height: 80px; background-color: #ffffff; border-radius: 8px;">
+                            <rect width="100" height="100" fill="#ffffff"/>
+                            <path d="M50,15 a35,35 0 0 1 0,70 a35,35 0 0 1 0,-70 M50,20 L30,50 L50,80 L70,50 Z" stroke="#000000" stroke-width="2" fill="none"/>
+                            <circle cx="50" cy="30" r="4" fill="#000000"/>
+                            <circle cx="35" cy="50" r="4" fill="#000000"/>
+                            <circle cx="50" cy="70" r="4" fill="#000000"/>
+                            <circle cx="65" cy="50" r="4" fill="#000000"/>
+                        </svg>
+                    </div>
+                    <h3>产品规划与用户洞察</h3>
+                    <p>基于深度玩家视角与行业理解，能系统性挖掘需求并驱动产品优化。</p>
+                </div>
+                
+                <!-- 技能板块2: 视觉创作与内容运营 -->
+                <div class="service-item">
+                    <div class="service-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" style="width: 80px; height: 80px; background-color: #ffffff; border-radius: 8px;">
+                            <rect width="100" height="100" fill="#ffffff"/>
+                            <rect x="25" y="30" width="50" height="40" rx="5" stroke="#000000" stroke-width="3" fill="none"/>
+                            <circle cx="50" cy="45" r="12" stroke="#000000" stroke-width="2" fill="none"/>
+                            <circle cx="50" cy="45" r="4" fill="#000000"/>
+                            <path d="M70,33 L80,25 L85,30 L75,38 Z" stroke="#000000" stroke-width="2" fill="none"/>
+                            <path d="M40,65 Q55,75 70,65" stroke="#000000" stroke-width="3" fill="none"/>
+                        </svg>
+                    </div>
+                    <h3>视觉内容创作与运营</h3>
+                    <p>精通模玩手办摄影与后期，能独立产出高传播性的视觉与运营内容。</p>
+                </div>
+                
+                <!-- 技能板块3: 社群运营与资源整合 -->
+                <div class="service-item">
+                    <div class="service-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" style="width: 80px; height: 80px; background-color: #ffffff; border-radius: 8px;">
+                            <rect width="100" height="100" fill="#ffffff"/>
+                            <circle cx="30" cy="30" r="15" stroke="#000000" stroke-width="3" fill="none"/>
+                            <circle cx="70" cy="30" r="15" stroke="#000000" stroke-width="3" fill="none"/>
+                            <circle cx="50" cy="70" r="15" stroke="#000000" stroke-width="3" fill="none"/>
+                            <path d="M30,30 L50,70 M70,30 L50,70 M30,30 L45,40 M70,30 L55,40" stroke="#000000" stroke-width="2" fill="none"/>
+                        </svg>
+                    </div>
+                    <h3>社群运营与资源整合</h3>
+                    <p>擅长社群搭建与用户维护，可以整合多方资源推动品牌与用户增长。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系区域 -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>联系到"我"</h2>
+                <p>准备好开始您的项目了吗？非常乐意听取您的想法</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h2>让我们谈谈您的项目</h2>
+                    <p>无论您是需要全新的网站设计、应用界面还是品牌重塑，我都能帮助您实现目标。</p>
+                    
+                    <div class="contact-details">
+                        <div class="contact-detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>中国-洛阳/上海</span>
+                        </div>
+                        <div class="contact-detail">
+                            <i class="fas fa-phone"></i>
+                            <span>+86 195-1550-4610</span>
+                        </div>
+                        <div class="contact-detail">
+                            <i class="fas fa-envelope"></i>
+                            <span>2693662075@qq.com/ bibittermelon@gmail.com</span>
+                        </div>
+                    </div>
+                    
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-dribbble"></i></a>
+                        <a href="#"><i class="fab fa-behance"></i></a>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">姓名</label>
+                            <input type="text" id="name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">邮箱</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">主题</label>
+                            <input type="text" id="subject" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">消息</label>
+                            <textarea id="message" class="form-control" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">发送消息</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">BBTM</div>
+                    <p>只是个简单的塑料小人爱好者，模玩是我的伙伴。</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>快速链接</h3>
+                    <ul>
+                        <li><a href="#home">首页</a></li>
+                        <li><a href="#portfolio">作品集</a></li>
+                        <li><a href="#about">关于我</a></li>
+                        <li><a href="#services">服务</a></li>
+                        <li><a href="#contact">联系</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>作品分类</h3>
+                    <ul>
+                        <li><a href="portfolio-dragonball.html">《龙珠》</a></li>
+                        <li><a href="portfolio-landscape.html">风光摄影</a></li>
+                        <li><a href="portfolio-cover.html">封面设计</a></li> <!-- 更新顺序 -->
+                        <li><a href="portfolio-character.html">人物特摄</a></li>
+                        <li><a href="portfolio-acg.html">ACG作品</a></li> <!-- 更新顺序 -->
+                        <li><a href="portfolio-comingsoon.html">即将发布</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>联系</h3>
+                    <ul>
+                        <li><a href="mailto:2693662075@qq.com">2693662075@qq.com</a></li>
+                        <li><a href="mailto:bibittermelon@gmail.com">bibittermelon@gmail.com</a></li>
+                        <li><a href="tel:+8619515504610">+86 195-1550-4610</a></li>
+                        <li>中国-洛阳/上海</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2024 Bi-bitter Melon Design. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 简单的菜单切换功能
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        });
+        
+        // 点击页面其他区域关闭移动端菜单
+        document.addEventListener('click', function(e) {
+            const navLinks = document.querySelector('.nav-links');
+            const menuToggle = document.querySelector('.menu-toggle');
+            
+            if (window.innerWidth <= 768 && 
+                !navLinks.contains(e.target) && 
+                !menuToggle.contains(e.target)) {
+                navLinks.classList.remove('active');
+            }
+        });
+        
+        // 平滑滚动 - 处理页面内的锚点链接
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                
+                // 只有当href以#开头且不是空链接时才阻止默认行为
+                if (href.startsWith('#') && href !== '#') {
+                    e.preventDefault();
+                    
+                    const targetId = href;
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                        
+                        // 移动端点击后关闭菜单
+                        if (window.innerWidth <= 768) {
+                            document.querySelector('.nav-links').classList.remove('active');
+                        }
+                    }
+                }
+            });
+        });
+        
+        // 为作品集卡片添加点击效果
+        document.querySelectorAll('.portfolio-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                // 这里可以添加一些点击效果，比如轻微的颜色变化
+                this.style.opacity = '0.9';
+                setTimeout(() => {
+                    this.style.opacity = '1';
+                }, 200);
+            });
+        });
+        
+        // 表单提交处理
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 获取表单数据
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            // 在实际应用中，这里应该发送数据到服务器
+            // 这里只是简单的控制台输出
+            console.log('表单提交:', { name, email, subject, message });
+            
+            // 显示成功消息
+            alert('感谢您的留言！我会尽快回复您。');
+            
+            // 重置表单
+            this.reset();
+        });
+        
+        // 页面加载完成后添加滚动监听
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.boxShadow = '0 5px 20px rgba(0,0,0,0.1)';
+            } else {
+                header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.05)';
+            }
+        });
+    </script>
+</body>
+</html>

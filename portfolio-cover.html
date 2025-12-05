@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>封面设计作品集 | Bi-bitter Melon Design</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 导航栏 */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #222;
+            text-decoration: none;
+            letter-spacing: -1px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #444;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #000;
+        }
+        
+        .back-btn {
+            color: #222;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s;
+        }
+        
+        .back-btn:hover {
+            color: #666;
+        }
+        
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        /* 作品集头部区域 */
+        .portfolio-header {
+            padding: 140px 0 60px;
+            text-align: center;
+            background-color: #fff;
+        }
+        
+        .portfolio-header h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #222;
+        }
+        
+        .portfolio-header p {
+            font-size: 18px;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            text-indent: 2em;
+        }
+        
+        /* 作品网格区域 */
+        .portfolio-gallery {
+            padding: 60px 0 100px;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .gallery-item {
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .gallery-img {
+            width: 100%;
+            height: 300px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 16px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .gallery-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .gallery-item:hover .gallery-img img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-info {
+            padding: 20px;
+        }
+        
+        .gallery-info h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #222;
+        }
+        
+        .gallery-info p {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .load-more {
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #222;
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: #000;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: #222;
+            border: 2px solid #222;
+        }
+        
+        .btn-outline:hover {
+            background-color: #222;
+            color: #fff;
+        }
+        
+        /* 图片查看模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            overflow: auto;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            position: relative;
+            margin: auto;
+            padding: 0;
+            width: 90%;
+            max-width: 1200px;
+            max-height: 90vh;
+            margin-top: 5vh;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 40px;
+            font-weight: 300;
+            cursor: pointer;
+            z-index: 2001;
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover {
+            color: #ddd;
+        }
+
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+            background-color: #fff;
+            border-radius: 8px 8px 0 0;
+            overflow: hidden;
+        }
+
+        #modalImage {
+            width: 100%;
+            height: auto;
+            max-height: 70vh;
+            object-fit: contain;
+            background-color: #f5f5f5;
+        }
+
+        .image-info {
+            padding: 20px;
+            background-color: #fff;
+        }
+
+        .image-info h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #222;
+        }
+
+        .image-info p {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .image-counter {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #999;
+        }
+
+        /* 模态框导航按钮 */
+        .modal-navigation {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            pointer-events: none;
+        }
+
+        .nav-btn {
+            background-color: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            pointer-events: auto;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-btn:hover {
+            background-color: #fff;
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-btn i {
+            font-size: 20px;
+            color: #222;
+        }
+
+        .prev-btn {
+            margin-left: -25px;
+        }
+
+        .next-btn {
+            margin-right: -25px;
+        }
+
+        /* 隐藏的作品项 */
+        .hidden-item {
+            display: none;
+        }
+        
+        /* 页脚 */
+        footer {
+            background-color: #222;
+            color: #fff;
+            padding: 70px 0 30px;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 50px;
+        }
+        
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+        
+        .footer-links h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #fff;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #333;
+            border-radius: 50%;
+            color: #fff;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: #444;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #444;
+            color: #999;
+            font-size: 14px;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 40px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: #fff;
+                flex-direction: column;
+                padding: 20px 0;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links li {
+                margin: 0;
+                text-align: center;
+                padding: 10px 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .portfolio-header {
+                padding: 120px 0 40px;
+            }
+            
+            .portfolio-header h1 {
+                font-size: 36px;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery-img {
+                height: 250px;
+            }
+            
+            /* 移动端模态框调整 */
+            .modal-content {
+                width: 95%;
+                margin-top: 2vh;
+            }
+            
+            .close-btn {
+                top: -30px;
+                font-size: 30px;
+            }
+            
+            .nav-btn {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .nav-btn i {
+                font-size: 16px;
+            }
+            
+            .prev-btn {
+                margin-left: -20px;
+            }
+            
+            .next-btn {
+                margin-right: -20px;
+            }
+            
+            .image-info {
+                padding: 15px;
+            }
+            
+            .image-info h3 {
+                font-size: 20px;
+            }
+            
+            .image-info p {
+                font-size = 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">Bi-bitter Melon</a>
+                <ul class="nav-links">
+                    <li><a href="index.html">返回主页</a></li>
+                    <li><a href="index.html#portfolio">所有作品</a></li>
+                    <li><a href="index.html#about">关于我</a></li>
+                    <li><a href="index.html#contact">联系</a></li>
+                </ul>
+                <a href="index.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    返回主页
+                </a>
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 作品集头部区域 -->
+    <section class="portfolio-header">
+        <div class="container">
+            <h1>封面设计作品集</h1>
+            <p>这里展示了所有封面设计相关的精选作品。学习官图出品，每一幅封面都是对原作的致敬与再创作。通过精心构图、色彩搭配和后期处理，让经典角色在新的视觉表达中焕发生机。这些作品不仅是技术的展示，更是对原作情感的传递。</p>
+            <a href="index.html#portfolio" class="btn btn-outline">查看所有分类</a>
+        </div>
+    </section>
+
+    <!-- 作品网格区域 -->
+    <section class="portfolio-gallery">
+        <div class="container">
+            <div class="gallery-grid">
+                <!-- 初始显示的6个作品项 -->
+                <div class="gallery-item">
+                    <div class="gallery-img">
+                        <img src="images/cover-design/cover-1.png" alt="龙珠封面设计">
+                    </div>
+                    <div class="gallery-info">
+                        <h3>“敢问路在何方？”</h3>
+                        <p>——《黑神话：悟空》</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="gallery-img">
+                        <img src="images/cover-design/cover-2.png" alt="电影海报设计">
+                    </div>
+                    <div class="gallery-info">
+                        <h3>“歌未竟，东方白。”</h3>
+                        <p>——《黑神话：悟空》</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="gallery-img">
+                        <img src="images/cover-design/cover-3.png" alt="游戏封面设计">
+                    </div>
+                    <div class="gallery-info">
+                        <h3>“我猜他们的本意，为了打鬼，借助钟馗……”</h3>
+                        <p>——《黑神话：悟空》</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="gallery-img">
+                        <img src="images/cover-design/cover-4.png" alt="漫画封面设计">
+                    </div>
+                    <div class="gallery-info">
+                        <h3>“所有的存在都是为了被毁灭而设计。”</h3>
+                        <p>——《尼尔：机械纪元》</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="gallery-img">
+                        <img src="images/cover-design/cover-5.png" alt="专辑封面设计">
+                    </div>
+                    <div class="gallery-info">
+                        <h3>“观音·听时”＆“一音·一时”</h3>
+                        <p>——CMMMONS</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="gallery-img">
+                        <img src="images/cover-design/cover-6.png" alt="书籍封面设计">
+                    </div>
+                    <div class="gallery-info">
+                        <h3>经典版·法相·孙悟空</h3>
+                        <p>——《布鲁可英雄无限》</p>
+                    </div>
+                </div>
+                
+                <!-- 隐藏的第一组（第7-9个） -->
+                <div class="gallery-item hidden-item" data-group="1">
+                    <div class="gallery-img">
+                        <img src="images/cover-design/cover-7.png" alt="杂志封面">
+                    </div>
+                    <div class="gallery-info">
+                        <h3>“出手吧，神！”</h3>
+                        <p>——《超龙珠英雄》</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item hidden-item" data-group="1">
+                    <div class="gallery-img">
+                        <img src="images/cover-design/cover-8.png" alt="品牌手册">
+                    </div>
+                    <div class="gallery-info">
+                        <h3>元灵黄帝·帝神机·应龙神装</h3>
+                        <p>——《驭意堂「玄机铸型录」》</p>
+                    </div>
+                </div>
+               
+                <div class="gallery-item hidden-item" data-group="1">
+                    <div class="gallery-img">
+                        <img src="images/cover-design/cover-9.png" alt="节日贺卡">
+                    </div>
+                    <div class="gallery-info">
+                        <h3>“这就是超越了超越超级赛亚人极限的超级赛亚人”</h3>
+                        <p>——《龙珠Z》</p>
+                    </div>
+                </div>
+                
+                <!-- 隐藏的第二组（第10-12个） -->
+                <div class="gallery-item hidden-item" data-group="2">
+                    <div class="gallery-img">
+                        <img src="images/cover-design/cover-10.png" alt="活动海报">
+                    </div>
+                    <div class="gallery-info">
+                        <h3>“我们永远被囚禁在这重复生与死的螺旋之中。”</h3>
+                        <p>——《尼尔：机械纪元》</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item hidden-item" data-group="2">
+                    <div class="gallery-img">
+                        <img src="images/cover-design/cover-11.png" alt="产品包装">
+                    </div>
+                    <div class="gallery-info">
+                        <h3>经典版·法相·孙悟空＆经典版·法相·杨戬</h3>
+                        <p>——《布鲁可英雄无限》</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item hidden-item" data-group="2">
+                    <div class="gallery-img">
+                        <img src="images/cover-design/cover-12.png" alt="艺术画册">
+                    </div>
+                    <div class="gallery-info">
+                        <h3>经典版·法相·白龙马</h3>
+                        <p>——《布鲁可英雄无限》</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="load-more">
+                <button class="btn" id="loadMoreBtn">加载更多作品 (3个)</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">BBTM</div>
+                    <p>只是个简单的塑料小人爱好者，模玩是我的伙伴。</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>作品分类</h3>
+                    <ul>
+                        <li><a href="portfolio-dragonball.html">《龙珠》</a></li>
+                        <li><a href="portfolio-landscape.html">风光摄影</a></li>
+                        <li><a href="portfolio-cover.html">封面设计</a></li>
+                        <li><a href="portfolio-character.html">人物特摄</a></li>
+                        <li><a href="portfolio-acg.html">ACG作品</a></li>
+                        <li><a href="portfolio-comingsoon.html">即将发布</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>快速链接</h3>
+                    <ul>
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="index.html#portfolio">作品集</a></li>
+                        <li><a href="index.html#about">关于我</a></li>
+                        <li><a href="index.html#services">服务</a></li>
+                        <li><a href="index.html#contact">联系</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>联系</h3>
+                    <ul>
+                        <li><a href="mailto:2693662075@qq.com">2693662075@qq.com</a></li>
+                        <li><a href="mailto:bibittermelon@gmail.com">bibittermelon@gmail.com</a></li>
+                        <li><a href="tel:+8619515504610">+86 195-1550-4610</a></li>
+                        <li>中国-洛阳/上海</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2024 Bi-bitter Melon Design. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========== 图片查看模态框 ========== -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div class="modal-body">
+                <img id="modalImage" src="" alt="作品大图">
+                <div class="image-info">
+                    <h3 id="modalTitle"></h3>
+                    <p id="modalDescription"></p>
+                    <div class="image-counter">
+                        <span id="currentImage">1</span> / <span id="totalImages">0</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-navigation">
+                <button class="nav-btn prev-btn">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="nav-btn next-btn">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 简单的菜单切换功能
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        });
+        
+        // 点击页面其他区域关闭移动端菜单
+        document.addEventListener('click', function(e) {
+            const navLinks = document.querySelector('.nav-links');
+            const menuToggle = document.querySelector('.menu-toggle');
+            
+            if (window.innerWidth <= 768 && 
+                !navLinks.contains(e.target) && 
+                !menuToggle.contains(e.target)) {
+                navLinks.classList.remove('active');
+            }
+        });
+        
+        // 页面加载完成后添加滚动监听
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.boxShadow = '0 5px 20px rgba(0,0,0,0.1)';
+            } else {
+                header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.05)';
+            }
+        });
+        
+        // ========== 图片模态框功能 ==========
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDescription = document.getElementById('modalDescription');
+        const currentImageSpan = document.getElementById('currentImage');
+        const totalImagesSpan = document.getElementById('totalImages');
+        const closeBtn = document.querySelector('.close-btn');
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+
+        // 图片数据存储
+        let currentImages = [];
+        let currentIndex = 0;
+        let currentGroup = 1; // 当前加载的组（1或2）
+
+        // 初始化图片点击事件
+        function initImageModal() {
+            const galleryItems = document.querySelectorAll('.gallery-item:not(.hidden-item)');
+            const allImages = [];
+            
+            galleryItems.forEach((item, index) => {
+                const img = item.querySelector('.gallery-img img');
+                const title = item.querySelector('.gallery-info h3').textContent;
+                const description = item.querySelector('.gallery-info p').textContent;
+                
+                if (img) {
+                    // 存储图片数据
+                    allImages.push({
+                        src: img.src,
+                        alt: img.alt,
+                        title: title,
+                        description: description
+                    });
+                    
+                    // 添加点击事件
+                    const galleryImg = item.querySelector('.gallery-img');
+                    galleryImg.style.cursor = 'pointer';
+                    galleryImg.addEventListener('click', () => {
+                        openModal(index);
+                    });
+                }
+            });
+            
+            currentImages = allImages;
+            totalImagesSpan.textContent = allImages.length;
+        }
+
+        // 打开模态框
+        function openModal(index) {
+            if (currentImages.length === 0) return;
+            
+            currentIndex = index;
+            updateModal();
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // 更新模态框内容
+        function updateModal() {
+            const imageData = currentImages[currentIndex];
+            
+            modalImage.src = imageData.src;
+            modalImage.alt = imageData.alt;
+            modalTitle.textContent = imageData.title;
+            modalDescription.textContent = imageData.description;
+            currentImageSpan.textContent = currentIndex + 1;
+            
+            // 更新按钮状态
+            prevBtn.style.display = currentIndex === 0 ? 'none' : 'flex';
+            nextBtn.style.display = currentIndex === currentImages.length - 1 ? 'none' : 'flex';
+        }
+
+        // 关闭模态框
+        function closeModal() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // 上一张图片
+        function prevImage() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateModal();
+            }
+        }
+
+        // 下一张图片
+        function nextImage() {
+            if (currentIndex < currentImages.length - 1) {
+                currentIndex++;
+                updateModal();
+            }
+        }
+
+        // 事件监听
+        closeBtn.addEventListener('click', closeModal);
+        prevBtn.addEventListener('click', prevImage);
+        nextBtn.addEventListener('click', nextImage);
+
+        // 点击模态框背景关闭
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // 键盘导航
+        document.addEventListener('keydown', (e) => {
+            if (modal.style.display === 'block') {
+                switch(e.key) {
+                    case 'Escape':
+                        closeModal();
+                        break;
+                    case 'ArrowLeft':
+                        prevImage();
+                        break;
+                    case 'ArrowRight':
+                        nextImage();
+                        break;
+                }
+            }
+        });
+
+        // 触摸滑动支持（移动端）
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        modal.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        modal.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            
+            if (touchEndX < touchStartX - swipeThreshold) {
+                // 向左滑动 - 下一张
+                nextImage();
+            }
+            
+            if (touchEndX > touchStartX + swipeThreshold) {
+                // 向右滑动 - 上一张
+                prevImage();
+            }
+        }
+
+        // 初始化模态框
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                initImageModal();
+            }, 100);
+        });
+        
+        // ========== 分组加载更多功能 ==========
+        document.getElementById('loadMoreBtn').addEventListener('click', function() {
+            // 显示当前组的所有隐藏作品
+            const hiddenItems = document.querySelectorAll(`.gallery-item.hidden-item[data-group="${currentGroup}"]`);
+            
+            if (hiddenItems.length > 0) {
+                // 显示当前组的所有作品
+                hiddenItems.forEach(item => {
+                    item.classList.remove('hidden-item');
+                });
+                
+                // 更新按钮状态
+                currentGroup++;
+                
+                if (currentGroup <= 2) {
+                    // 还有下一组
+                    this.textContent = `加载更多作品 (3个)`;
+                } else {
+                    // 所有组都已加载完成
+                    this.textContent = '已显示所有作品';
+                    this.disabled = true;
+                    this.style.backgroundColor = '#666';
+                    this.style.cursor = 'not-allowed';
+                }
+                
+                // 重新初始化图片点击事件（包括新显示的作品）
+                initImageModal();
+                
+                // 平滑滚动到新显示的第一个作品
+                setTimeout(() => {
+                    if (hiddenItems[0]) {
+                        hiddenItems[0].scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'center' 
+                        });
+                    }
+                }, 100);
+            }
+        });
+    </script>
+</body>
+</html>

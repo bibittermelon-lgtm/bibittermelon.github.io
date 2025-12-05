@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[分类名称] | Bi-bitter Melon Design</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 导航栏 */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #222;
+            text-decoration: none;
+            letter-spacing: -1px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #444;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #000;
+        }
+        
+        .back-btn {
+            color: #222;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s;
+        }
+        
+        .back-btn:hover {
+            color: #666;
+        }
+        
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        /* 作品集头部区域 */
+        .portfolio-header {
+            padding: 140px 0 60px;
+            text-align: center;
+            background-color: #fff;
+        }
+        
+        .portfolio-header h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #222;
+        }
+        
+        .portfolio-header p {
+            font-size: 18px;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            text-indent: 2em;
+        }
+        
+        /* 作品网格区域 */
+        .portfolio-gallery {
+            padding: 60px 0 100px;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .gallery-item {
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .gallery-img {
+            width: 100%;
+            height: 300px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 16px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .gallery-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .gallery-item:hover .gallery-img img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-info {
+            padding: 20px;
+        }
+        
+        .gallery-info h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #222;
+        }
+        
+        .gallery-info p {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .load-more {
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #222;
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: #000;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: #222;
+            border: 2px solid #222;
+        }
+        
+        .btn-outline:hover {
+            background-color: #222;
+            color: #fff;
+        }
+        
+        /* 页脚 */
+        footer {
+            background-color: #222;
+            color: #fff;
+            padding: 70px 0 30px;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 50px;
+        }
+        
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+        
+        .footer-links h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #fff;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #333;
+            border-radius: 50%;
+            color: #fff;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: #444;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #444;
+            color: #999;
+            font-size: 14px;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 40px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: #fff;
+                flex-direction: column;
+                padding: 20px 0;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links li {
+                margin: 0;
+                text-align: center;
+                padding: 10px 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .portfolio-header {
+                padding: 120px 0 40px;
+            }
+            
+            .portfolio-header h1 {
+                font-size: 36px;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery-img {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">Bi-bitter Melon</a>
+                <ul class="nav-links">
+                    <li><a href="index.html">返回主页</a></li>
+                    <li><a href="index.html#portfolio">所有作品</a></li>
+                    <li><a href="index.html#about">关于我</a></li>
+                    <li><a href="index.html#contact">联系</a></li>
+                </ul>
+                <a href="index.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    返回主页
+                </a>
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 作品集头部区域 -->
+    <section class="portfolio-header">
+        <div class="container">
+            <h1>[分类名称] 作品集</h1>
+            <p>这里展示了所有[分类名称]相关的精选作品。每张图片都是经过精心拍摄和后期处理的，记录了[分类描述]。通过这些作品，可以看到[分类特点]。</p>
+            <a href="index.html#portfolio" class="btn btn-outline">查看所有分类</a>
+        </div>
+    </section>
+
+    <!-- 作品网格区域 -->
+    <section class="portfolio-gallery">
+        <div class="container">
+            <div class="gallery-grid">
+                <!-- 作品项 1 -->
+                <div class="gallery-item">
+                    <div class="gallery-img">
+                        <img src="images/[分类文件夹]/[图片文件名1].jpg" alt="[作品标题1]">
+                    </div>
+                    <div class="gallery-info">
+                        <h3>[作品标题1]</h3>
+                        <p>[作品描述1，例如：拍摄于2024年，使用设备等]</p>
+                    </div>
+                </div>
+                
+                <!-- 作品项 2 -->
+                <div class="gallery-item">
+                    <div class="gallery-img">
+                        <img src="images/[分类文件夹]/[图片文件名2].jpg" alt="[作品标题2]">
+                    </div>
+                    <div class="gallery-info">
+                        <h3>[作品标题2]</h3>
+                        <p>[作品描述2]</p>
+                    </div>
+                </div>
+                
+                <!-- 作品项 3 -->
+                <div class="gallery-item">
+                    <div class="gallery-img">
+                        <img src="images/[分类文件夹]/[图片文件名3].jpg" alt="[作品标题3]">
+                    </div>
+                    <div class="gallery-info">
+                        <h3>[作品标题3]</h3>
+                        <p>[作品描述3]</p>
+                    </div>
+                </div>
+                
+                <!-- 更多作品项... -->
+            </div>
+            
+            <div class="load-more">
+                <button class="btn" id="loadMoreBtn">加载更多作品</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">BBTM</div>
+                    <p>只是个简单的塑料小人爱好者，模玩是我的伙伴。</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>作品分类</h3>
+                    <ul>
+                        <li><a href="portfolio-dragonball.html">《龙珠》</a></li>
+                        <li><a href="portfolio-landscape.html">风光摄影</a></li>
+                        <li><a href="portfolio-cover.html">封面设计</a></li>
+                        <li><a href="portfolio-character.html">人物特摄</a></li>
+                        <li><a href="portfolio-acg.html">ACG作品</a></li>
+                        <li><a href="portfolio-comingsoon.html">即将发布</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>快速链接</h3>
+                    <ul>
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="index.html#portfolio">作品集</a></li>
+                        <li><a href="index.html#about">关于我</a></li>
+                        <li><a href="index.html#services">服务</a></li>
+                        <li><a href="index.html#contact">联系</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>联系</h3>
+                    <ul>
+                        <li><a href="mailto:2693662075@qq.com">2693662075@qq.com</a></li>
+                        <li><a href="mailto:bibittermelon@gmail.com">bibittermelon@gmail.com</a></li>
+                        <li><a href="tel:+8619515504610">+86 195-1550-4610</a></li>
+                        <li>中国-洛阳/上海</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2024 Bi-bitter Melon Design. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 简单的菜单切换功能
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        });
+        
+        // 点击页面其他区域关闭移动端菜单
+        document.addEventListener('click', function(e) {
+            const navLinks = document.querySelector('.nav-links');
+            const menuToggle = document.querySelector('.menu-toggle');
+            
+            if (window.innerWidth <= 768 && 
+                !navLinks.contains(e.target) && 
+                !menuToggle.contains(e.target)) {
+                navLinks.classList.remove('active');
+            }
+        });
+        
+        // 加载更多作品功能
+        document.getElementById('loadMoreBtn').addEventListener('click', function() {
+            // 这里可以添加加载更多作品的逻辑
+            // 例如：通过AJAX加载更多图片，或显示更多隐藏的作品项
+            alert('加载更多作品功能待实现。您可以根据实际图片数量扩展此功能。');
+        });
+        
+        // 页面加载完成后添加滚动监听
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.boxShadow = '0 5px 20px rgba(0,0,0,0.1)';
+            } else {
+                header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.05)';
+            }
+        });
+    </script>
+</body>
+</html>
